@@ -1,1 +1,6 @@
 ---
+postfix_myhostname: ""
+postfix_inet_interfaces: all
+postfix_inet_protocols: ipv4
+postfix_mydestination: $myhostname, localhost.$mydomain, localhost, $mydomain
+postfix_mynetworks: 127.0.0.0/8

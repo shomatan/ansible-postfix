@@ -1,1 +1,43 @@
 ---
+# install
+- name: Ensure postfix is installed.
+  yum:
+    name: postfix
+    state: installed
+
+- name: Check default mailer.
+  command: "/usr/bin/test /etc/alternatives/mta -ef /usr/sbin/sendmail.postfix"
+  register: postfix_is_default_mailer
+  changed_when: postfix_is_default_mailer.rc != 0
+
+- name: Ensure sendmail is stopped and disabled to start at boot.
+  service:
+    name: sendmail
+    state: stopped
+    enabled: no
+  when: postfix_is_default_mailer.rc != 0
+
+- name: Copy postfix configuration in place.
+  template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
+    owner: root
+    group: root
+    mode: 00644
+  notify:
+    - restart postfix
+
+- name: Ensure postfix is started and enabled to start at boot.
+  service: name=postfix state=started enabled=yes
+  
+# SMTP-Auth
+
+
+
+
+
+- debug: var=postfix_is_default_mailer.rc
+# - name: Stat php_fpm_pool_conf_path
+#   stat:
+#     path: "{{ php_fpm_pool_conf_path | dirname }}"
+#   register: php_fpm_pool_conf_path_dir_stat
