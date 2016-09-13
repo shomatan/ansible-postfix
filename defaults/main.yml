@@ -4,3 +4,16 @@ postfix_inet_interfaces: all
 postfix_inet_protocols: ipv4
 postfix_mydestination: $myhostname, localhost.$mydomain, localhost, $mydomain
 postfix_mynetworks: 127.0.0.0/8
+
+postfix_sasl_packages:
+  - cyrus-sasl-lib
+  - cyrus-sasl-ntlm
+  - cyrus-sasl-plain
+  - cyrus-sasl-md5
+  - cyrus-sasl-gs2
+  - cyrus-sasl
+  - cyrus-sasl-devel
+  - cyrus-sasl-ldap
+  - cyrus-sasl-scram
+  - cyrus-sasl-gssapi
+  - cyrus-sasl-sql
