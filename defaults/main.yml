@@ -1,8 +1,11 @@
 ---
-postfix_myhostname: ""
+postfix_myhostname: "{{ ansible_fqdn }}"
+postfix_mydomain: "{{ ansible_domain }}"
+postfix_myorigin: $myhostname
+postfix_mydestination: $myhostname, localhost.$mydomain, localhost, $mydomain
+
 postfix_inet_interfaces: all
 postfix_inet_protocols: ipv4
-postfix_mydestination: $myhostname, localhost.$mydomain, localhost, $mydomain
 postfix_mynetworks: 127.0.0.0/8
 postfix_default_privs: nobody
 

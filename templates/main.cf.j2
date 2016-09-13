@@ -8,13 +8,15 @@ data_directory = /var/lib/postfix
 mail_owner = postfix
 
 myhostname = {{ postfix_myhostname }}
+mydomain = {{ postfix_mydomain }}
+myorigin = {{ postfix_myorigin }}
+
+# メールサーバー自身に配送されたとみなすドメインのリスト
+mydestination = {{ postfix_mydestination }}
 
 # メール受信を許可するアドレス
 inet_interfaces = {{ postfix_inet_interfaces }}
 inet_protocols = {{ postfix_inet_protocols }}
-
-# メールサーバー自身に配送されたとみなすドメインのリスト
-mydestination = {{ postfix_mydestination }}
 
 # メールのリレー（転送）を許可するネットワーク
 mynetworks = {{ postfix_mynetworks }}
