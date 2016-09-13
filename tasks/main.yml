@@ -35,7 +35,7 @@
   yum:
     name: "{{ item }}"
     state: installed
-  with_items: postfix_sasl_packages
+  with_items: "{{ postfix_sasl_packages }}"
 
 - name: Ensure saslauthd is started and enabled to start at boot.
   service: name=saslauthd state=started enabled=yes
