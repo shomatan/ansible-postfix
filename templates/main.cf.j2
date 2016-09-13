@@ -64,7 +64,8 @@ smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 smtp_sasl_tls_security_options = noanonymous
 smtp_tls_CApath = /etc/pki/tls/certs/ca-bundle.crt
 
-
-
 # 受信メールサイズを10Mに制限
 message_size_limit = 10485760
+
+# Specify the execution user at the time of receiving the e-mail.
+default_privs = {{ postfix_default_privs }}
