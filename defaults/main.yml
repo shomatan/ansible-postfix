@@ -9,6 +9,10 @@ postfix_inet_protocols: ipv4
 postfix_mynetworks: 127.0.0.0/8
 postfix_default_privs: nobody
 
+postfix_smtpd_recipient_restrictions: "permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination"
+postfix_relay_domains: ""
+postfix_relayhost: ""
+
 postfix_sasl_packages:
   - cyrus-sasl-lib
   - cyrus-sasl-ntlm

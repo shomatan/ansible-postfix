@@ -26,6 +26,7 @@ home_mailbox = Maildir/
 
 unknown_local_recipient_reject_code = 550
 
+# ALIAS DATABASE
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 
@@ -57,10 +58,14 @@ smtp_use_tls = yes
 # SASLの有効化
 smtp_sasl_auth_enable = yes
 
-# リレー制限の設定
-smtpd_recipient_restrictions = 	permit_mynetworks
-																permit_sasl_authenticated
-																reject_unauth_destination
+# リレー設定
+smtpd_recipient_restrictions = 	{{ postfix_smtpd_recipient_restrictions }}
+{% if postfix_relay_domains %}
+relay_domains = {{ postfix_relay_domains }}
+{% endif %}
+{% if postfix_relayhost %}
+relayhost = {{ postfix_relayhost }}
+{% endif %}
 
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 smtp_sasl_tls_security_options = noanonymous
