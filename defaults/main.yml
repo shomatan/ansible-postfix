@@ -25,3 +25,5 @@ postfix_sasl_packages:
   - cyrus-sasl-scram
   - cyrus-sasl-gssapi
   - cyrus-sasl-sql
+
+postfix_sasl_password: []

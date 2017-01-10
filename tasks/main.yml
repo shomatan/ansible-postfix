@@ -40,13 +40,20 @@
 - name: Ensure saslauthd is started and enabled to start at boot.
   service: name=saslauthd state=started enabled=yes
 
+- name: Copy sasl accounts file.
+  template: src=sasl_passwd.j2 dest=/etc/postfix/sasl_passwd mode=0600
+  register: sasl_accounts
+
+- name: Update postmap.
+  command: postmap hash:/etc/postfix/sasl_passwd
+  when: sasl_accounts.changed
+  notify:
+    - restart postfix
+
 # Mail dir
 - name: Create skelton Maildir directory.
   file:
     path: "/etc/skel/Maildir/{{ item }}"
     state: directory
     mode: 00700
-  with_items:
-    - new
-    - cur
-    - tmp
+  with_items: [ new, cur, tmp ]

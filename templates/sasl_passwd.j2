@@ -1,0 +1,7 @@
+# Managed by ansible
+
+{% if postfix_sasl_password is iterable %}
+{% for item in postfix_sasl_password %}
+[{{ item.host }}]:{{ item.port | default(587) }} {{ item.email }}:{{ item.password }}
+{% endfor %}
+{% endif %}
