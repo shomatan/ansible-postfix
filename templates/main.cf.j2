@@ -1,15 +1,12 @@
 # Managed by ansible
 
-queue_directory = /var/spool/postfix
-command_directory = /usr/sbin
-daemon_directory = /usr/libexec/postfix
-data_directory = /var/lib/postfix
-
-mail_owner = postfix
-
 myhostname = {{ postfix_myhostname }}
 mydomain = {{ postfix_mydomain }}
 myorigin = {{ postfix_myorigin }}
+
+mail_owner = postfix
+append_at_myorigin = yes
+append_dot_mydomain = yes
 
 # メールサーバー自身に配送されたとみなすドメインのリスト
 mydestination = {{ postfix_mydestination }}
@@ -25,6 +22,11 @@ mynetworks = {{ postfix_mynetworks }}
 home_mailbox = Maildir/
 
 unknown_local_recipient_reject_code = 550
+
+queue_directory = /var/spool/postfix
+command_directory = /usr/sbin
+daemon_directory = /usr/libexec/postfix
+data_directory = /var/lib/postfix
 
 # ALIAS DATABASE
 alias_maps = hash:/etc/aliases

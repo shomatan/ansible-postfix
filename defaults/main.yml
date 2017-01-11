@@ -1,7 +1,7 @@
 ---
 postfix_myhostname: "{{ ansible_fqdn }}"
 postfix_mydomain: "{{ ansible_domain }}"
-postfix_myorigin: $myhostname
+postfix_myorigin: $mydomain
 postfix_mydestination: $myhostname, localhost.$mydomain, localhost, $mydomain
 
 postfix_inet_interfaces: all
