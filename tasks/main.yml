@@ -20,6 +20,17 @@
 - name: Ensure postfix is started and enabled to start at boot.
   service: name=postfix state=started enabled=yes
 
+# static mail transport
+- name: Copy transport map file.
+  template: src=transport.j2 dest=/etc/postfix/transport
+  register: transport_maps
+
+- name: Update transport map.
+  command: postmap hash:/etc/postfix/transport
+  when: transport_maps.changed
+  notify:
+    - restart postfix  
+
 # SMTP-Auth
 - name: Ensure cyrus-sasl packages are installed.
   yum: name={{ item }} state=installed

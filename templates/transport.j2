@@ -1,0 +1,9 @@
+# Managed by ansible
+
+{% if postfix_transport_maps | length %}
+{{ postfix_myhostname }} local:
+{% endif %}
+
+{% for domain, relay_to in postfix_transport_maps.iteritems() %}
+{{ domain }} {{ relay_to }}
+{% endfor %}
