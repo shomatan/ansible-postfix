@@ -34,7 +34,7 @@
 
 - name: Update transport map.
   command: postmap hash:/etc/postfix/transport
-  when: transport_maps.changed
+  when: transport_maps.changed and postfix_transport_maps | length > 0
   notify:
     - restart postfix
 
@@ -58,7 +58,7 @@
 
 - name: Update postmap.
   command: postmap hash:/etc/postfix/sasl_passwd
-  when: sasl_accounts.changed
+  when: sasl_accounts.changed and postfix_sasl_password | length > 0
   notify:
     - restart postfix
 
