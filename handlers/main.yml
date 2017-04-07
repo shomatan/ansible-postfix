@@ -1,3 +1,6 @@
 ---
 - name: restart postfix
-  service: name=postfix state=restarted
+  service:
+    name: postfix
+    state: restarted
+  when: ansible_connection != 'docker'

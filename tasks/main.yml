@@ -1,7 +1,9 @@
 ---
 # install
 - name: Ensure postfix is installed.
-  yum: name=postfix state=installed
+  yum:
+    name: postfix
+    state: installed
 
 - name: Check default mailer.
   command: "/usr/bin/test /etc/alternatives/mta -ef /usr/sbin/sendmail.postfix"
@@ -10,37 +12,48 @@
 
 - name: Ensure sendmail is stopped and disabled to start at boot.
   service: name=sendmail state=stopped enabled=no
-  when: postfix_is_default_mailer.rc != 0
+  when: postfix_is_default_mailer.rc != 0 and ansible_connection != 'docker'
 
 - name: Copy postfix configuration in place.
-  template: src=main.cf.j2 dest=/etc/postfix/main.cf
+  template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
   notify:
     - restart postfix
 
 - name: Ensure postfix is started and enabled to start at boot.
   service: name=postfix state=started enabled=yes
+  when: ansible_connection != 'docker'
 
 # static mail transport
 - name: Copy transport map file.
-  template: src=transport.j2 dest=/etc/postfix/transport
+  template:
+    src: transport.j2
+    dest: /etc/postfix/transport
   register: transport_maps
 
 - name: Update transport map.
   command: postmap hash:/etc/postfix/transport
   when: transport_maps.changed
   notify:
-    - restart postfix  
+    - restart postfix
 
 # SMTP-Auth
 - name: Ensure cyrus-sasl packages are installed.
-  yum: name={{ item }} state=installed
+  yum:
+    name: "{{ item }}"
+    state: installed
   with_items: "{{ postfix_sasl_packages }}"
 
 - name: Ensure saslauthd is started and enabled to start at boot.
   service: name=saslauthd state=started enabled=yes
+  when: ansible_connection != 'docker'
 
 - name: Copy sasl accounts file.
-  template: src=sasl_passwd.j2 dest=/etc/postfix/sasl_passwd mode=0600
+  template:
+    src: sasl_passwd.j2
+    dest: /etc/postfix/sasl_passwd
+    mode: 0600
   register: sasl_accounts
 
 - name: Update postmap.
@@ -51,5 +64,8 @@
 
 # Mail dir
 - name: Create skelton Maildir directory.
-  file: path=/etc/skel/Maildir/{{ item }} state=directory mode=0700
+  file:
+    path: /etc/skel/Maildir/{{ item }}
+    mode: 0700
+    state: directory
   with_items: [ new, cur, tmp ]
