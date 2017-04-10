@@ -69,3 +69,8 @@
     mode: 0700
     state: directory
   with_items: [ new, cur, tmp ]
+
+# clean up
+- name: Purge yum cache.
+  command: yum clean all
+  when: ansible_connection == 'docker'
