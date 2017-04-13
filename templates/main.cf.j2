@@ -55,7 +55,7 @@ smtp_host_lookup = native
 ########## TLS/SSL関連 ##########
 
 # リレー設定
-smtpd_recipient_restrictions = 	{{ postfix_smtpd_recipient_restrictions }}
+smtpd_recipient_restrictions = {{ postfix_smtpd_recipient_restrictions }}
 {% if postfix_relay_domains %}
 relay_domains = {{ postfix_relay_domains }}
 {% endif %}
@@ -65,7 +65,8 @@ relayhost = {{ postfix_relayhost }}
 
 smtp_use_tls = yes
 smtp_tls_CApath = /etc/pki/tls/certs/ca-bundle.crt
-smtp_sasl_auth_enable = yes
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_local_domain = $myhostname
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 smtp_sasl_tls_security_options = noanonymous
 smtp_sasl_mechanism_filter = plain
