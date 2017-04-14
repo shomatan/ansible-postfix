@@ -71,8 +71,10 @@ smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 smtp_sasl_tls_security_options = noanonymous
 smtp_sasl_mechanism_filter = plain
 
+{% if postfix_transport_maps | length %}
 # 静的なメール配送
 transport_maps = hash:/etc/postfix/transport
+{% endif %}
 
 # 受信メールサイズを10Mに制限
 message_size_limit = 10485760
