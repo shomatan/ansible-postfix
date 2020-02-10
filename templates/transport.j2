@@ -4,6 +4,6 @@
 {{ postfix_myhostname }} local:
 {% endif %}
 
-{% for domain, relay_to in postfix_transport_maps.iteritems() %}
+{% for domain, relay_to in postfix_transport_maps.items() %}
 {{ domain }} {{ relay_to }}
 {% endfor %}
